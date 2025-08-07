@@ -14,13 +14,43 @@
 
       <!-- 商品カテゴリ -->
       <label class="block mb-2 font-semibold">【商品カテゴリ】</label>
-      <div class="mb-4 grid grid-cols-2 gap-2">
-        <label class="flex items-center"><input type="radio" name="category" value="家電・スマホ" class="mr-2" checked /> 📱 家電・スマホ</label>
-        <label class="flex items-center"><input type="radio" name="category" value="ファッション" class="mr-2" /> 👕 ファッション</label>
-        <label class="flex items-center"><input type="radio" name="category" value="本・雑誌" class="mr-2" /> 📚 本・雑誌</label>
-        <label class="flex items-center"><input type="radio" name="category" value="化粧品・美容" class="mr-2" /> 💄 化粧品・美容</label>
-        <label class="flex items-center"><input type="radio" name="category" value="ホビー" class="mr-2" /> 🎮 ホビー</label>
-        <label class="flex items-center"><input type="radio" name="category" value="その他" class="mr-2" /> 📦 その他</label>
+      <div class="mb-4 flex flex-wrap gap-2">
+        <label class="relative">
+          <input type="radio" name="category" value="家電・スマホ" class="sr-only peer" checked />
+          <div class="px-4 py-2 bg-gray-100 rounded-full cursor-pointer transition-all duration-200 peer-checked:bg-blue-500 peer-checked:text-white hover:bg-gray-200 peer-checked:hover:bg-blue-600">
+            📱 家電・スマホ
+          </div>
+        </label>
+        <label class="relative">
+          <input type="radio" name="category" value="ファッション" class="sr-only peer" />
+          <div class="px-4 py-2 bg-gray-100 rounded-full cursor-pointer transition-all duration-200 peer-checked:bg-blue-500 peer-checked:text-white hover:bg-gray-200 peer-checked:hover:bg-blue-600">
+            👕 ファッション
+          </div>
+        </label>
+        <label class="relative">
+          <input type="radio" name="category" value="本・雑誌" class="sr-only peer" />
+          <div class="px-4 py-2 bg-gray-100 rounded-full cursor-pointer transition-all duration-200 peer-checked:bg-blue-500 peer-checked:text-white hover:bg-gray-200 peer-checked:hover:bg-blue-600">
+            📚 本・雑誌
+          </div>
+        </label>
+        <label class="relative">
+          <input type="radio" name="category" value="化粧品・美容" class="sr-only peer" />
+          <div class="px-4 py-2 bg-gray-100 rounded-full cursor-pointer transition-all duration-200 peer-checked:bg-blue-500 peer-checked:text-white hover:bg-gray-200 peer-checked:hover:bg-blue-600">
+            💄 化粧品・美容
+          </div>
+        </label>
+        <label class="relative">
+          <input type="radio" name="category" value="ホビー" class="sr-only peer" />
+          <div class="px-4 py-2 bg-gray-100 rounded-full cursor-pointer transition-all duration-200 peer-checked:bg-blue-500 peer-checked:text-white hover:bg-gray-200 peer-checked:hover:bg-blue-600">
+            🎮 ホビー
+          </div>
+        </label>
+        <label class="relative">
+          <input type="radio" name="category" value="その他" class="sr-only peer" />
+          <div class="px-4 py-2 bg-gray-100 rounded-full cursor-pointer transition-all duration-200 peer-checked:bg-blue-500 peer-checked:text-white hover:bg-gray-200 peer-checked:hover:bg-blue-600">
+            📦 その他
+          </div>
+        </label>
       </div>
 
       <!-- 商品名 -->
