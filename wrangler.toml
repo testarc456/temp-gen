@@ -1,0 +1,10 @@
+name = "template-generator-api"
+main = "worker.js"
+compatibility_date = "2024-01-01"
+
+[env.production.vars]
+# Environment variables will be set via wrangler secret command
+# OPENAI_API_KEY = "your-api-key-here" # DO NOT put actual key here
+
+[[env.production.triggers]]
+pattern = "template-gen-api.your-subdomain.workers.dev"

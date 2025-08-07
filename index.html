@@ -47,8 +47,15 @@
   </div>
 
   <script>
-    function generateTemplate() {
+    async function generateTemplate() {
       const name = document.getElementById("productName").value.trim();
+      const button = document.querySelector('button[onclick="generateTemplate()"]');
+      const output = document.getElementById("output");
+
+      if (!name) {
+        alert("商品名を入力してください");
+        return;
+      }
 
       // 商品状態
       const conditionEl = document.querySelector('input[name="condition"]:checked');
@@ -61,26 +68,37 @@
         items = ["特にございません"];
       }
 
-      const template = `商品の説明  
-${name}です。軽量で持ち運びしやすく、季節の変わり目や旅行用アウターとしても便利な一着です。ユニクロの定番アイテムで、男女問わず人気があります。
+      // ローディング状態
+      button.disabled = true;
+      button.textContent = "🤖 AIが生成中...";
+      output.value = "AIがテンプレートを生成しています...";
 
-【商品状態】  
-・${condition}  
+      try {
+        const response = await fetch('https://template-generator-api.trasd208.workers.dev', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            productName: name,
+            condition: condition,
+            items: items
+          })
+        });
 
-【付属品】  
-・${items.join('\n・')}  
+        const data = await response.json();
 
-【発送方法】  
-・防水対策を行い、丁寧に梱包して匿名配送いたします  
-
-【注意事項】  
-・あくまで中古品であることをご理解のうえご購入ください  
-・気になる点があればご購入前にお気軽にコメントください
-
-カテゴリ：メンズ ＞ ジャケット・アウター  
-ブランド：ユニクロ`;
-
-      document.getElementById("output").value = template;
+        if (data.success) {
+          output.value = data.template;
+        } else {
+          output.value = `エラーが発生しました: ${data.error}`;
+        }
+      } catch (error) {
+        output.value = `通信エラーが発生しました: ${error.message}`;
+      } finally {
+        button.disabled = false;
+        button.textContent = "テンプレートを生成する";
+      }
     }
 
     function copyToClipboard() {
