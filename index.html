@@ -14,40 +14,40 @@
 
       <!-- 商品カテゴリ -->
       <label class="block mb-2 font-semibold">【商品カテゴリ】</label>
-      <div class="mb-4 flex flex-wrap gap-2">
-        <label class="relative">
-          <input type="radio" name="category" value="家電・スマホ" class="sr-only peer" checked />
-          <div class="px-4 py-2 bg-gray-100 rounded-full cursor-pointer transition-all duration-200 peer-checked:bg-blue-500 peer-checked:text-white hover:bg-gray-200 peer-checked:hover:bg-blue-600">
+      <div class="mb-4 grid grid-cols-3 gap-2">
+        <label class="relative" onclick="toggleCategory(this, '家電・スマホ')">
+          <input type="radio" name="category" value="家電・スマホ" class="sr-only peer" />
+          <div class="px-3 py-2 bg-gray-100 rounded-full cursor-pointer transition-all duration-200 peer-checked:bg-blue-500 peer-checked:text-white hover:bg-gray-200 peer-checked:hover:bg-blue-600 text-center text-sm">
             📱 家電・スマホ
           </div>
         </label>
-        <label class="relative">
+        <label class="relative" onclick="toggleCategory(this, 'ファッション')">
           <input type="radio" name="category" value="ファッション" class="sr-only peer" />
-          <div class="px-4 py-2 bg-gray-100 rounded-full cursor-pointer transition-all duration-200 peer-checked:bg-blue-500 peer-checked:text-white hover:bg-gray-200 peer-checked:hover:bg-blue-600">
+          <div class="px-3 py-2 bg-gray-100 rounded-full cursor-pointer transition-all duration-200 peer-checked:bg-blue-500 peer-checked:text-white hover:bg-gray-200 peer-checked:hover:bg-blue-600 text-center text-sm">
             👕 ファッション
           </div>
         </label>
-        <label class="relative">
+        <label class="relative" onclick="toggleCategory(this, '本・雑誌')">
           <input type="radio" name="category" value="本・雑誌" class="sr-only peer" />
-          <div class="px-4 py-2 bg-gray-100 rounded-full cursor-pointer transition-all duration-200 peer-checked:bg-blue-500 peer-checked:text-white hover:bg-gray-200 peer-checked:hover:bg-blue-600">
+          <div class="px-3 py-2 bg-gray-100 rounded-full cursor-pointer transition-all duration-200 peer-checked:bg-blue-500 peer-checked:text-white hover:bg-gray-200 peer-checked:hover:bg-blue-600 text-center text-sm">
             📚 本・雑誌
           </div>
         </label>
-        <label class="relative">
+        <label class="relative" onclick="toggleCategory(this, '化粧品・美容')">
           <input type="radio" name="category" value="化粧品・美容" class="sr-only peer" />
-          <div class="px-4 py-2 bg-gray-100 rounded-full cursor-pointer transition-all duration-200 peer-checked:bg-blue-500 peer-checked:text-white hover:bg-gray-200 peer-checked:hover:bg-blue-600">
+          <div class="px-3 py-2 bg-gray-100 rounded-full cursor-pointer transition-all duration-200 peer-checked:bg-blue-500 peer-checked:text-white hover:bg-gray-200 peer-checked:hover:bg-blue-600 text-center text-sm">
             💄 化粧品・美容
           </div>
         </label>
-        <label class="relative">
+        <label class="relative" onclick="toggleCategory(this, 'ホビー')">
           <input type="radio" name="category" value="ホビー" class="sr-only peer" />
-          <div class="px-4 py-2 bg-gray-100 rounded-full cursor-pointer transition-all duration-200 peer-checked:bg-blue-500 peer-checked:text-white hover:bg-gray-200 peer-checked:hover:bg-blue-600">
+          <div class="px-3 py-2 bg-gray-100 rounded-full cursor-pointer transition-all duration-200 peer-checked:bg-blue-500 peer-checked:text-white hover:bg-gray-200 peer-checked:hover:bg-blue-600 text-center text-sm">
             🎮 ホビー
           </div>
         </label>
-        <label class="relative">
+        <label class="relative" onclick="toggleCategory(this, 'その他')">
           <input type="radio" name="category" value="その他" class="sr-only peer" />
-          <div class="px-4 py-2 bg-gray-100 rounded-full cursor-pointer transition-all duration-200 peer-checked:bg-blue-500 peer-checked:text-white hover:bg-gray-200 peer-checked:hover:bg-blue-600">
+          <div class="px-3 py-2 bg-gray-100 rounded-full cursor-pointer transition-all duration-200 peer-checked:bg-blue-500 peer-checked:text-white hover:bg-gray-200 peer-checked:hover:bg-blue-600 text-center text-sm">
             📦 その他
           </div>
         </label>
@@ -125,7 +125,7 @@
 
       // 商品カテゴリ
       const categoryEl = document.querySelector('input[name="category"]:checked');
-      const category = categoryEl ? categoryEl.value : "その他";
+      const category = categoryEl ? categoryEl.value : "";
 
       // ローディング状態
       button.disabled = true;
@@ -159,6 +159,19 @@
       } finally {
         button.disabled = false;
         button.textContent = "テンプレートを生成する";
+      }
+    }
+
+    function toggleCategory(labelElement, value) {
+      event.stopPropagation();
+      const input = labelElement.querySelector('input[type="radio"]');
+      
+      if (input.checked) {
+        // 既に選択されている場合は解除
+        input.checked = false;
+      } else {
+        // 選択されていない場合は選択
+        input.checked = true;
       }
     }
 
