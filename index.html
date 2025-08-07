@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-6">
+  <div class="max-w-6xl mx-auto flex flex-col md:flex-row gap-6">
+
+    <!-- 左：入力欄 -->
+    <div class="w-full md:w-1/2 bg-white p-4 rounded shadow">
+      <h2 class="text-xl font-bold mb-4">🧥 商品情報の入力</h2>
+
+      <!-- 商品名 -->
+      <label class="block mb-2 font-semibold">【商品名】</label>
+      <input id="productName" type="text" placeholder="例：ユニクロ ウルトラライトダウン Lサイズ ブラック" class="w-full border px-3 py-2 mb-4 rounded" />
+
+      <!-- 商品状態（ラジオ） -->
+      <label class="block mb-2 font-semibold">【商品状態】</label>
+      <div class="mb-4 space-y-2">
+        <label><input type="radio" name="condition" value="新品・未使用です" /> 新品・未使用</label><br />
+        <label><input type="radio" name="condition" value="美品で、着用回数はごくわずかです" /> 美品（着用わずか）</label><br />
+        <label><input type="radio" name="condition" value="使用感はありますが、目立つ傷や汚れはありません" /> やや使用感あり</label><br />
+        <label><input type="radio" name="condition" value="全体的に使用感があり、傷や汚れがあります" /> 傷・汚れあり</label>
+      </div>
+
+      <!-- 付属品（チェックボックス） -->
+      <label class="block mb-2 font-semibold">【付属品】</label>
+      <div class="mb-4 space-y-2">
+        <label><input type="checkbox" name="items" value="収納袋" /> 収納袋</label><br />
+        <label><input type="checkbox" name="items" value="タグ付き" /> タグ付き</label><br />
+        <label><input type="checkbox" name="items" value="購入時の袋" /> 購入時の袋</label><br />
+        <label><input type="checkbox" name="items" value="なし" /> 付属品なし</label>
+      </div>
+
+      <button onclick="generateTemplate()" class="mt-4 w-full bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">テンプレートを生成する</button>
+    </div>
+
+    <!-- 右：出力欄 -->
+    <div class="w-full md:w-1/2 bg-white p-4 rounded shadow">
+      <h2 class="text-xl font-bold mb-4">📄 出力テンプレート</h2>
+      <textarea id="output" class="w-full h-96 border px-3 py-2 rounded font-mono" readonly>ここにテンプレートが表示されます。</textarea>
+      <button onclick="copyToClipboard()" class="mt-4 w-full bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">📋 コピーする</button>
+    </div>
+
+  </div>
+
+  <script>
+    function generateTemplate() {
+      const name = document.getElementById("productName").value.trim();
+
+      // 商品状態
+      const conditionEl = document.querySelector('input[name="condition"]:checked');
+      const condition = conditionEl ? conditionEl.value : "状態は特に記載がありません";
+
+      // 付属品
+      const itemEls = document.querySelectorAll('input[name="items"]:checked');
+      let items = Array.from(itemEls).map(el => el.value);
+      if (items.includes("なし")) {
+        items = ["特にございません"];
+      }
+
+      const template = `商品の説明  
+${name}です。軽量で持ち運びしやすく、季節の変わり目や旅行用アウターとしても便利な一着です。ユニクロの定番アイテムで、男女問わず人気があります。
+
+【商品状態】  
+・${condition}  
+
+【付属品】  
+・${items.join('\n・')}  
+
+【発送方法】  
+・防水対策を行い、丁寧に梱包して匿名配送いたします  
+
+【注意事項】  
+・あくまで中古品であることをご理解のうえご購入ください  
+・気になる点があればご購入前にお気軽にコメントください
+
+カテゴリ：メンズ ＞ ジャケット・アウター  
+ブランド：ユニクロ`;
+
+      document.getElementById("output").value = template;
+    }
+
+    function copyToClipboard() {
+      const text = document.getElementById("output").value;
+      navigator.clipboard.writeText(text).then(() => {
+        alert("テンプレートをコピーしました！");
+      });
+    }
+  </script>
+</body>
+</html>
