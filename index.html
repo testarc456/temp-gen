@@ -55,7 +55,7 @@
 
       <!-- 商品名 -->
       <label class="block mb-2 font-semibold">【商品名】</label>
-      <input id="productName" type="text" placeholder="例：iPhone 14 Pro 256GB スペースブラック" class="w-full border px-3 py-2 mb-4 rounded" />
+      <input id="productName" type="text" placeholder="例：商品名を入力してください" class="w-full border px-3 py-2 mb-4 rounded" />
 
       <!-- 商品状態（ラジオ） -->
       <label class="block mb-2 font-semibold">【商品状態】</label>
@@ -162,16 +162,34 @@
       }
     }
 
+    // カテゴリ別プレースホルダー
+    const categoryPlaceholders = {
+      '家電・スマホ': '例：iPhone 14 Pro 256GB スペースブラック',
+      'ファッション': '例：ユニクロ ウルトラライトダウン Lサイズ ブラック',
+      '本・雑誌': '例：鬼滅の刃 全23巻セット',
+      '化粧品・美容': '例：シャネル ココマドモアゼル 100ml',
+      'ホビー': '例：ポケモンカード リザードンVMAX',
+      'その他': '例：商品名を入力してください'
+    };
+
     function toggleCategory(labelElement, value) {
       event.stopPropagation();
       const input = labelElement.querySelector('input[type="radio"]');
+      const productNameInput = document.getElementById('productName');
       
       if (input.checked) {
         // 既に選択されている場合は解除
         input.checked = false;
+        productNameInput.placeholder = '例：商品名を入力してください';
       } else {
+        // 他の選択を解除
+        document.querySelectorAll('input[name="category"]').forEach(radio => {
+          radio.checked = false;
+        });
+        
         // 選択されていない場合は選択
         input.checked = true;
+        productNameInput.placeholder = categoryPlaceholders[value] || '例：商品名を入力してください';
       }
     }
 
