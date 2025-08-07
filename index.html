@@ -35,6 +35,16 @@
         <label><input type="checkbox" name="items" value="なし" /> 付属品なし</label>
       </div>
 
+      <!-- 返品可否 -->
+      <label class="block mb-2 font-semibold">【返品について】</label>
+      <div class="mb-4">
+        <label class="flex items-center">
+          <input type="checkbox" id="returnPolicy" class="mr-2" />
+          <span>返品を受け付ける（3日以内、送料購入者負担）</span>
+        </label>
+        <p class="text-sm text-gray-500 mt-1">※デフォルトは返品不可です</p>
+      </div>
+
       <button onclick="generateTemplate()" class="mt-4 w-full bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">テンプレートを生成する</button>
     </div>
 
@@ -69,6 +79,9 @@
         items = ["特にございません"];
       }
 
+      // 返品可否
+      const returnPolicy = document.getElementById("returnPolicy").checked;
+
       // ローディング状態
       button.disabled = true;
       button.textContent = "🤖 AIが生成中...";
@@ -83,7 +96,8 @@
           body: JSON.stringify({
             productName: name,
             condition: condition,
-            items: items
+            items: items,
+            returnPolicy: returnPolicy
           })
         });
 
