@@ -4,6 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- 依存の逆三角形順序 -->
+  <script src="constants.js"></script>
+  <script src="data.js"></script>
+  <script src="ui.js"></script>
+  <script src="api.js"></script>
+  <script src="event.js"></script>
 </head>
 <body class="bg-gray-100 p-6">
   <div class="max-w-6xl mx-auto flex flex-col md:flex-row gap-6">
@@ -57,36 +63,10 @@
       <label class="block mb-2 font-semibold">【商品名】</label>
       <input id="productName" type="text" placeholder="例：商品名を入力してください" class="w-full border px-3 py-2 mb-4 rounded" />
 
-      <!-- 商品状態（ラジオ） -->
-      <label class="block mb-2 font-semibold">【商品状態】</label>
-      <div class="mb-4 space-y-2">
-        <label><input type="radio" name="condition" value="新品・未使用です" /> 新品・未使用</label><br />
-        <label><input type="radio" name="condition" value="美品で、使用回数はごくわずかです" /> 美品（使用わずか）</label><br />
-        <label><input type="radio" name="condition" value="使用感はありますが、目立つ傷や汚れはありません" /> やや使用感あり</label><br />
-        <label><input type="radio" name="condition" value="全体的に使用感があり、傷や汚れがあります" /> 傷・汚れあり</label>
-      </div>
+      <!-- 動的フォーム -->
+      <div id="dynamic-form"></div>
 
-      <!-- 付属品（チェックボックス） -->
-      <label class="block mb-2 font-semibold">【付属品】</label>
-      <div class="mb-4 space-y-2">
-        <label><input type="checkbox" name="items" value="取扱説明書" /> 取扱説明書</label><br />
-        <label><input type="checkbox" name="items" value="外箱" /> 外箱</label><br />
-        <label><input type="checkbox" name="items" value="保証書" /> 保証書</label><br />
-        <label><input type="checkbox" name="items" value="充電ケーブル" /> 充電ケーブル</label><br />
-        <label><input type="checkbox" name="items" value="なし" /> 付属品なし</label>
-      </div>
-
-      <!-- 返品可否 -->
-      <label class="block mb-2 font-semibold">【返品について】</label>
-      <div class="mb-4">
-        <label class="flex items-center">
-          <input type="checkbox" id="returnPolicy" class="mr-2" />
-          <span>返品を受け付ける（3日以内、送料購入者負担）</span>
-        </label>
-        <p class="text-sm text-gray-500 mt-1">※デフォルトは返品不可です</p>
-      </div>
-
-      <button onclick="generateTemplate()" class="mt-4 w-full bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">テンプレートを生成する</button>
+      <button type="button" onclick="generateTemplate()" class="mt-4 w-full bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">テンプレートを生成する</button>
     </div>
 
     <!-- 右：出力欄 -->
@@ -97,108 +77,5 @@
     </div>
 
   </div>
-
-  <script>
-    async function generateTemplate() {
-      const name = document.getElementById("productName").value.trim();
-      const button = document.querySelector('button[onclick="generateTemplate()"]');
-      const output = document.getElementById("output");
-
-      if (!name) {
-        alert("商品名を入力してください");
-        return;
-      }
-
-      // 商品状態
-      const conditionEl = document.querySelector('input[name="condition"]:checked');
-      const condition = conditionEl ? conditionEl.value : "状態は特に記載がありません";
-
-      // 付属品
-      const itemEls = document.querySelectorAll('input[name="items"]:checked');
-      let items = Array.from(itemEls).map(el => el.value);
-      if (items.includes("なし")) {
-        items = ["特にございません"];
-      }
-
-      // 返品可否
-      const returnPolicy = document.getElementById("returnPolicy").checked;
-
-      // 商品カテゴリ
-      const categoryEl = document.querySelector('input[name="category"]:checked');
-      const category = categoryEl ? categoryEl.value : "";
-
-      // ローディング状態
-      button.disabled = true;
-      button.textContent = "🤖 AIが生成中...";
-      output.value = "AIがテンプレートを生成しています...";
-
-      try {
-        const response = await fetch('https://template-generator-api.trasd208.workers.dev', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            productName: name,
-            condition: condition,
-            items: items,
-            returnPolicy: returnPolicy,
-            category: category
-          })
-        });
-
-        const data = await response.json();
-
-        if (data.success) {
-          output.value = data.template;
-        } else {
-          output.value = `エラーが発生しました: ${data.error}`;
-        }
-      } catch (error) {
-        output.value = `通信エラーが発生しました: ${error.message}`;
-      } finally {
-        button.disabled = false;
-        button.textContent = "テンプレートを生成する";
-      }
-    }
-
-    // カテゴリ別プレースホルダー
-    const categoryPlaceholders = {
-      '家電・スマホ': '例：iPhone 16 Pro',
-      'ファッション': '例：ASICS × JJJJound GEL‑KAYANO 14',
-      '本・雑誌': '例：『鬼滅の刃』全23巻セット',
-      '化粧品・美容': '例：DUO ザ クレンジングバーム ブラックリペア',
-      'ホビー': '例：ポケモンカードゲーム MEGA 拡張パック「メガブレイブ」',
-      'その他': '例：Francfranc フレ ハンディファン'
-    };
-
-    function toggleCategory(labelElement, value, event) {
-      event.preventDefault();
-      const input = labelElement.querySelector('input[type="radio"]');
-      const productNameInput = document.getElementById('productName');
-      
-      if (input.checked) {
-        // 既に選択されている場合は解除
-        input.checked = false;
-        productNameInput.placeholder = '例：商品名を入力してください';
-      } else {
-        // 他の選択を解除
-        document.querySelectorAll('input[name="category"]').forEach(radio => {
-          radio.checked = false;
-        });
-        
-        // 選択されていない場合は選択
-        input.checked = true;
-        productNameInput.placeholder = categoryPlaceholders[value] || '例：商品名を入力してください';
-      }
-    }
-
-    function copyToClipboard() {
-      const text = document.getElementById("output").value;
-      navigator.clipboard.writeText(text).then(() => {
-        alert("テンプレートをコピーしました！");
-      });
-    }
-  </script>
 </body>
 </html>

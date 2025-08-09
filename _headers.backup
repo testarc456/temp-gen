@@ -1,0 +1,16 @@
+/*
+  # Content Security Policy
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com; style-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com; connect-src 'self' https://template-generator-api.trasd208.workers.dev; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'
+  
+  # Permissions Policy  
+  Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=(), usb=(), gyroscope=(), accelerometer=(), magnetometer=()
+  
+  # Security Headers
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  X-XSS-Protection: 1; mode=block
+  Referrer-Policy: strict-origin-when-cross-origin
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  
+  # Cache Control
+  Cache-Control: public, max-age=3600

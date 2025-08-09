@@ -2,6 +2,14 @@ name = "template-generator-api"
 main = "worker.js"
 compatibility_date = "2024-01-01"
 
+[[kv_namespaces]]
+binding = "PROMPTS"
+id = "0142a1f249244aacbafc1d438fba54a7"
+
+[[kv_namespaces]]
+binding = "RATELIMIT"
+id = "0142a1f249244aacbafc1d438fba54a7"
+
 [env.production.vars]
 # Environment variables will be set via wrangler secret command
 # OPENAI_API_KEY = "your-api-key-here" # DO NOT put actual key here
